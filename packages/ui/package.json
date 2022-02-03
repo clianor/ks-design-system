@@ -1,0 +1,15 @@
+{
+  "name": "@ks-design-system/ui",
+  "version": "0.0.1",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "webpack --env production",
+    "clean": "rimraf ./dist && rimraf tsconfig.tsbuildinfo",
+    "watch": "tsc -b -w --preserveWatchOutput"
+  },
+  "files": [
+    "dist"
+  ],
+  "private": true
+}
