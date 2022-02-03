@@ -6,7 +6,7 @@ module.exports = function (env, argv) {
     mode: env.production ? 'production' : 'development',
     devtool: env.production ? 'source-map' : 'eval',
     entry: {
-      index: './src/index.tsx',
+      index: './src/index.ts',
     },
     module: {
       rules: [

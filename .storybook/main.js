@@ -1,5 +1,7 @@
 const path = require('path');
 
+const toPath = (_path) => path.join(process.cwd(), _path);
+
 module.exports = {
   stories: [
     '../stories/**/*.stories.mdx',
@@ -16,6 +18,11 @@ module.exports = {
         tsconfigRaw: require('../tsconfig.json'),
       },
     });
+    config.module.rules.push({
+      type: 'javascript/auto',
+      test: /\.mjs$/,
+      include: /node_modules/,
+    });
 
     config.resolve.extensions.push('.ts', '.tsx');
 
@@ -25,6 +32,7 @@ module.exports = {
         __dirname,
         '../packages/utils/src',
       ),
+      '@emotion/core': toPath('node_modules/@emotion/react'),
     });
 
     return config;

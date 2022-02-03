@@ -11,5 +11,10 @@
   "files": [
     "dist"
   ],
-  "private": true
+  "private": true,
+  "dependencies": {
+    "@emotion/react": "^11.7.1",
+    "@emotion/styled": "^11.6.0",
+    "framer-motion": "^6.2.3"
+  }
 }

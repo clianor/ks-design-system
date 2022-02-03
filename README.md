@@ -150,7 +150,7 @@ export function roll(roll: string): string {
 ```
 
 ```tsx
-// packages/ui/src/index.tsx
+// packages/ui/src/index.ts
 import { roll } from "@ks-design-system/utils";
 
 console.log(roll("1d20"));
@@ -217,7 +217,7 @@ module.exports = function (env, argv) {
     mode: env.production ? "production" : "development",
     devtool: env.production ? "source-map" : "eval",
     entry: {
-      index: "./src/index.tsx", // utils는 ./src/index.ts
+      index: "./src/index.ts", // utils는 ./src/index.ts
     },
     module: {
       rules: [
@@ -369,7 +369,7 @@ module.exports = function (env, argv) {
     mode: env.production ? 'production' : 'development',
     devtool: env.production ? 'source-map' : 'eval',
     entry: {
-      index: './src/index.tsx',
+      index: './src/index.ts',
     },
     module: {
       rules: [
@@ -410,7 +410,7 @@ module.exports = function (env, argv) {
 ```
 
 ```tsx
-// packages/ui/src/index.tsx
+// packages/ui/src/index.ts
 import React from 'react';
 import { roll } from '@ks-design-system/utils';
 
@@ -536,4 +536,10 @@ Default.args = {
 
 ```shell
 $ yarn run storybook # 기존에 작성한 코드들을 이용한 결과물을 확인 가능
+```
+
+### 패키지 의존성 설치 및 삭제 방법
+```shell
+$ yarn lerna add {package_name} --scope={workspace_name}
+$ yarn workspace {workspace_name} remove {package_name}
 ```

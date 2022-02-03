@@ -11,5 +11,6 @@
   "files": [
     "dist"
   ],
-  "private": true
+  "private": true,
+  "dependencies": {}
 }
