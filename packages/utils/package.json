@@ -1,12 +1,12 @@
 {
   "name": "@ks-design-system/utils",
   "version": "0.0.1",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
   "scripts": {
-    "build": "webpack --env production",
-    "clean": "rimraf ./dist && rimraf tsconfig.tsbuildinfo",
-    "watch": "tsc -b -w --preserveWatchOutput"
+    "build": "tsc --emitDeclarationOnly && rollup -c && rimraf .rollup.cache",
+    "watch": "rollup -cw",
+    "clean": "rimraf ./dist && rimraf tsconfig.tsbuildinfo && rimraf .rollup.cache"
   },
   "files": [
     "dist"

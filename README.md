@@ -586,3 +586,164 @@ module.exports = {
   framework: '@storybook/react',
 };
 ```
+
+### webpack -> rollup
+```shell
+# 롤업 설치
+$ yarn add -DW rollup
+
+# 바벨 설치
+$ yarn add -DW @babel/core @babel/preset-env @babel/preset-react
+
+# 롤업에서 바벨을 사용하게 해주는 플러그인도 설치
+$ yarn add -DW @rollup/plugin-babel
+
+# 롤업 타입스크립트 플러그인 설치
+$ yarn add -DW @rollup/plugin-typescript
+
+# 바벨에서도 이를 해석하게 추가
+$ yarn add -DW @babel/preset-typescript
+
+# minify
+$ yarn add -DW rollup-plugin-terser
+
+# peerDependency로 설치된 라이브러리의 코드가 번들링된 결과에 포함되지 않고, import 구문으로 불러와서 사용할 수 있게 만들어줍니다.
+$ yarn add -DW rollup-plugin-peer-deps-external
+```
+
+```json
+// packages/utils/package.json
+// packages/ui/package.json
+...
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
+  "scripts": {
+    "build": "tsc --emitDeclarationOnly && rollup -c",
+    "watch": "rollup -cw",
+    "clean": "rimraf ./dist && rimraf tsconfig.tsbuildinfo && rimraf .rollup.cache"
+  },
+...
+```
+
+```json
+// packages/utils/tsconfig.json
+// packages/ui/tsconfig.json
+...
+    "compilerOptions": {
+        "declaration": true,
+        "outDir": "build",
+        "rootDir": "./src",
+        "jsx": "react-jsx"
+    }
+...
+```
+
+```js
+// packages/utils/rollup.config.js
+import babel from '@rollup/plugin-babel';
+import typescript from '@rollup/plugin-typescript';
+import peerDepsExternal from 'rollup-plugin-peer-deps-external';
+import { terser } from 'rollup-plugin-terser';
+
+export default {
+  input: './src/index.ts',
+  output: [
+    {
+      file: 'build/dist/utils.cjs.js',
+      format: 'cjs',
+    },
+    {
+      file: 'build/dist/utils.cjs.min.js',
+      format: 'cjs',
+      plugins: [terser()],
+    },
+    {
+      file: 'build/dist/utils.esm.js',
+      format: 'es',
+    },
+    {
+      file: 'build/dist/utils.esm.min.js',
+      format: 'es',
+      plugins: [terser()],
+    },
+    {
+      dir: 'build',
+      format: 'esm',
+      sourcemap: 'inline',
+      preserveModules: true,
+      preserveModulesRoot: 'src',
+    },
+  ],
+  plugins: [
+    // 바벨 트랜스파일러 설정
+    babel({
+      babelHelpers: 'bundled',
+      presets: [
+        '@babel/preset-env',
+        '@babel/preset-react',
+        '@babel/preset-typescript',
+      ],
+      extensions: ['.js', '.jsx', '.ts', '.tsx'],
+    }),
+
+    peerDepsExternal(),
+    // 타입스크립트
+    typescript(),
+  ],
+};
+```
+
+```js
+// packages/utils/rollup.config.js
+import babel from '@rollup/plugin-babel';
+import typescript from '@rollup/plugin-typescript';
+import peerDepsExternal from 'rollup-plugin-peer-deps-external';
+import { terser } from 'rollup-plugin-terser';
+
+export default {
+  input: './src/index.ts',
+  output: [
+    {
+      file: 'build/dist/ui.cjs.js',
+      format: 'cjs',
+    },
+    {
+      file: 'build/dist/ui.cjs.min.js',
+      format: 'cjs',
+      plugins: [terser()],
+    },
+    {
+      file: 'build/dist/ui.esm.js',
+      format: 'es',
+    },
+    {
+      file: 'build/dist/ui.esm.min.js',
+      format: 'es',
+      plugins: [terser()],
+    },
+    {
+      dir: 'build',
+      format: 'esm',
+      sourcemap: 'inline',
+      preserveModules: true,
+      preserveModulesRoot: 'src',
+    },
+  ],
+  plugins: [
+    // 바벨 트랜스파일러 설정
+    babel({
+      babelHelpers: 'bundled',
+      presets: [
+        '@babel/preset-env',
+        '@babel/preset-react',
+        '@babel/preset-typescript',
+      ],
+      extensions: ['.js', '.jsx', '.ts', '.tsx'],
+    }),
+
+    peerDepsExternal(),
+    // 타입스크립트
+    typescript(),
+  ],
+};
+```
