@@ -304,9 +304,9 @@ module.exports = {
 
 ```js
 // packages/utils/webpack.config.js
-import { ESBuildMinifyPlugin } from 'esbuild-loader';
+const { ESBuildMinifyPlugin } = require('esbuild-loader');
 
-export default function (env, argv) {
+module.exports = function (env, argv) {
   return {
     mode: env.production ? 'production' : 'development',
     devtool: env.production ? 'source-map' : 'eval',
@@ -321,13 +321,13 @@ export default function (env, argv) {
           options: {
             loader: 'tsx',
             target: 'es2015',
-            tsconfigRaw: import('./tsconfig.json'),
+            tsconfigRaw: require('./tsconfig.json'),
           },
         },
       ],
     },
     optimization: {
-      minimize: env.production ? true : false,
+      minimize: !!env.production,
       minimizer: [
         new ESBuildMinifyPlugin({
           target: 'es2015',
@@ -350,12 +350,10 @@ export default function (env, argv) {
 
 ```js
 // packages/ui/webpack.config.js
-import path from 'path';
-import { ESBuildMinifyPlugin } from 'esbuild-loader';
+const path = require('path');
+const { ESBuildMinifyPlugin } = require('esbuild-loader');
 
-const __dirname = path.resolve();
-
-export default function (env, argv) {
+module.exports = function (env, argv) {
   return {
     mode: env.production ? 'production' : 'development',
     devtool: env.production ? 'source-map' : 'eval',
@@ -370,13 +368,13 @@ export default function (env, argv) {
           options: {
             loader: 'tsx',
             target: 'es2015',
-            tsconfigRaw: import('./tsconfig.json'),
+            tsconfigRaw: require('./tsconfig.json'),
           },
         },
       ],
     },
     optimization: {
-      minimize: env.production ? true : false,
+      minimize: !!env.production,
       minimizer: [
         new ESBuildMinifyPlugin({
           target: 'es2015',
@@ -533,4 +531,58 @@ $ yarn run storybook # 기존에 작성한 코드들을 이용한 결과물을 �
 ```shell
 $ yarn lerna add {package_name} --scope={workspace_name}
 $ yarn workspace {workspace_name} remove {package_name}
+```
+
+### emotion 및 framer-motion 설치
+```shell
+# https://stackoverflow.com/questions/62980752/lerna-add-no-packages-found-where-package-can-be-added
+# lerna는 하나의 스코프에 여러개의 패키지를 설치하는 것을 지원하지 않는다고 함.
+$ yarn lerna add @emotion/react --scope=@ks-design-system/ui
+$ yarn lerna add @emotion/styled --scope=@ks-design-system/ui
+$ yarn lerna add framer-motion --scope=@ks-design-system/ui
+```
+
+```js
+// .storybook/main.js
+const path = require('path');
+
+const toPath = (_path) => path.join(process.cwd(), _path);
+
+module.exports = {
+  stories: [
+    '../stories/**/*.stories.mdx',
+    '../stories/**/*.stories.@(js|jsx|ts|tsx)',
+  ],
+  addons: ['@storybook/addon-links', '@storybook/addon-essentials'],
+  webpackFinal: async (config) => {
+    config.module.rules.push({
+      test: /\.(ts|tsx)?$/,
+      loader: 'esbuild-loader',
+      options: {
+        loader: 'tsx',
+        target: 'es2015',
+        tsconfigRaw: require('../tsconfig.json'),
+      },
+    });
+    config.module.rules.push({
+      type: 'javascript/auto',
+      test: /\.mjs$/,
+      include: /node_modules/,
+    });
+
+    config.resolve.extensions.push('.ts', '.tsx');
+
+    Object.assign(config.resolve.alias, {
+      '@ks-design-system/ui': path.resolve(__dirname, '../packages/ui/src'),
+      '@ks-design-system/utils': path.resolve(
+        __dirname,
+        '../packages/utils/src',
+      ),
+      '@emotion/core': toPath('node_modules/@emotion/react'),
+    });
+
+    return config;
+  },
+  framework: '@storybook/react',
+};
 ```
