@@ -283,7 +283,7 @@ module.exports = {
 
 ### React & ESBuild  셋팅
 ```shell
-$ yarn add -WP react react-dom
+$ yarn add -W react react-dom
 $ yarn add -DW @types/react eslint-plugin-react esbuild-loader
 ```
 
@@ -620,7 +620,7 @@ $ yarn add -DW rollup-plugin-peer-deps-external
   "scripts": {
     "build": "tsc --emitDeclarationOnly && rollup -c",
     "watch": "rollup -cw",
-    "clean": "rimraf ./dist && rimraf tsconfig.tsbuildinfo && rimraf .rollup.cache"
+    "clean": "rimraf ./build && rimraf tsconfig.tsbuildinfo && rimraf .rollup.cache"
   },
 ...
 ```
@@ -746,4 +746,11 @@ export default {
     typescript(),
   ],
 };
+```
+
+```shell
+# webpack 관련 패키지 제거
+$ yarn remove -W ts-loader esbuild-loader
+# webpack.config.js 제거
+$ rm -rf webpack.config.js
 ```

@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc --emitDeclarationOnly && rollup -c && rimraf .rollup.cache",
     "watch": "rollup -cw",
-    "clean": "rimraf ./dist && rimraf tsconfig.tsbuildinfo && rimraf .rollup.cache"
+    "clean": "rimraf ./build && rimraf tsconfig.tsbuildinfo && rimraf .rollup.cache"
   },
   "files": [
     "dist"
