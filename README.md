@@ -283,7 +283,7 @@ module.exports = {
 
 ### React & ESBuild  셋팅
 ```shell
-$ yarn add -W react react-dom 
+$ yarn add -WP react react-dom
 $ yarn add -DW @types/react eslint-plugin-react esbuild-loader
 ```
 

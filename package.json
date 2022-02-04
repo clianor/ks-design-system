@@ -5,9 +5,14 @@
     "ci": "yarn install --frozen-lockfile",
     "lerna": "lerna",
     "build": "lerna run build --stream",
+    "prebuild": "yarn run clean",
     "build:ui": "lerna run build --scope=@ks-design-system/ui",
+    "prebuild:ui": "yarn run clean:ui",
     "build:utils": "lerna run build --scope=@ks-design-system/utils",
+    "prebuild:utils": "yarn run clean:utils",
     "clean": "lerna run clean --parallel",
+    "clean:ui": "lerna run clean --scope=@ks-design-system/ui",
+    "clean:utils": "lerna run clean --scope=@ks-design-system/utils",
     "lint": "eslint ./packages --ext .ts,.tsx",
     "lint:fix": "eslint ./packages --ext .ts,.tsx --fix",
     "storybook": "start-storybook -p 6006",
@@ -40,7 +45,8 @@
   "workspaces": [
     "packages/*"
   ],
-  "dependencies": {
+  "dependencies": {},
+  "peerDependencies": {
     "react": "^17.0.2",
     "react-dom": "^17.0.2"
   }
