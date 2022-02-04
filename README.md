@@ -749,8 +749,8 @@ export default {
 ```
 
 ```shell
-# webpack 관련 패키지 제거
-$ yarn remove -W ts-loader esbuild-loader
+# 불필요한 webpack 관련 패키지 제거
+$ yarn remove -W ts-loader
 # webpack.config.js 제거
 $ rm -rf webpack.config.js
 ```

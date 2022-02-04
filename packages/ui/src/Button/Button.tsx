@@ -1,6 +1,6 @@
-import React, { ButtonHTMLAttributes } from 'react';
 import styled from '@emotion/styled';
 import { motion } from 'framer-motion';
+import React, { ButtonHTMLAttributes } from 'react';
 
 const StyledButton = styled(motion.button)`
   padding: 8px 16px;
