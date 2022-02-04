@@ -5,6 +5,8 @@
     "ci": "yarn install --frozen-lockfile",
     "lerna": "lerna",
     "build": "lerna run build --stream",
+    "build:ui": "lerna run build --scope=@ks-design-system/ui",
+    "build:utils": "lerna run build --scope=@ks-design-system/utils",
     "clean": "lerna run clean --parallel",
     "lint": "eslint ./packages --ext .ts,.tsx",
     "lint:fix": "eslint ./packages --ext .ts,.tsx --fix",

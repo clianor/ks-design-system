@@ -1,9 +1,7 @@
-import path from 'path';
-import { ESBuildMinifyPlugin } from 'esbuild-loader';
+const path = require('path');
+const { ESBuildMinifyPlugin } = require('esbuild-loader');
 
-const __dirname = path.resolve();
-
-export default function (env) {
+module.exports = function (env, argv) {
   return {
     mode: env.production ? 'production' : 'development',
     devtool: env.production ? 'source-map' : 'eval',
@@ -18,7 +16,7 @@ export default function (env) {
           options: {
             loader: 'tsx',
             target: 'es2015',
-            tsconfigRaw: import('./tsconfig.json'),
+            tsconfigRaw: require('./tsconfig.json'),
           },
         },
       ],
