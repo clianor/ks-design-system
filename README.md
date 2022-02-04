@@ -166,25 +166,14 @@ $ yarn add -DW rimraf
 ```
 
 ```json
-// packages/utils/tsconfig.json
+// packages/utils/package.json
+// packages/ui/package.json
 {
   ...,
   "scripts": {
     "build": "tsc -b",
     "clean": "rimraf ./dist && rimraf tsconfig.tsbuildinfo",
     "watch": "tsc -b -w --preserveWatchOutput"
-  },
-  ...
-}
-```
-
-```json
-// packages/ui/tsconfig.json
-{
-  ...,
-  "scripts": {
-    "build": "tsc -b",
-    "clean": "rimraf ./dist && rimraf tsconfig.tsbuildinfo"
   },
   ...
 }
