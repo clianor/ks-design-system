@@ -1,7 +1,6 @@
-// packages/utils/webpack.config.js
-const { ESBuildMinifyPlugin } = require('esbuild-loader');
+import { ESBuildMinifyPlugin } from 'esbuild-loader';
 
-module.exports = function (env, argv) {
+export default function (env) {
   return {
     mode: env.production ? 'production' : 'development',
     devtool: env.production ? 'source-map' : 'eval',
@@ -16,13 +15,13 @@ module.exports = function (env, argv) {
           options: {
             loader: 'tsx',
             target: 'es2015',
-            tsconfigRaw: require('./tsconfig.json'),
+            tsconfigRaw: import('./tsconfig.json'),
           },
         },
       ],
     },
     optimization: {
-      minimize: env.production ? true : false,
+      minimize: !!env.production,
       minimizer: [
         new ESBuildMinifyPlugin({
           target: 'es2015',
