@@ -618,9 +618,9 @@ $ yarn add -DW rollup-plugin-peer-deps-external
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
-    "build": "tsc --emitDeclarationOnly && rollup -c",
+    "build": "tsc --emitDeclarationOnly && rollup -c && rimraf .rollup.cache tsconfig.tsbuildinfo",
     "watch": "rollup -cw",
-    "clean": "rimraf ./build && rimraf tsconfig.tsbuildinfo && rimraf .rollup.cache"
+    "clean": "rimraf ./build tsconfig.tsbuildinfo .rollup.cache"
   },
 ...
 ```
@@ -742,7 +742,6 @@ export default {
     }),
 
     peerDepsExternal(),
-    // 타입스크립트
     typescript(),
   ],
 };
