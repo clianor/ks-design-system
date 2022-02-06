@@ -4,9 +4,10 @@
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
-    "build": "tsc --emitDeclarationOnly && rollup -c && rimraf .rollup.cache tsconfig.tsbuildinfo",
+    "build": "tsc --emitDeclarationOnly && rollup -c && yarn run clean:cache",
     "watch": "rollup -cw",
-    "clean": "rimraf ./build tsconfig.tsbuildinfo .rollup.cache"
+    "clean:cache": "rimraf .rollup.cache tsconfig.tsbuildinfo",
+    "clean": "rimraf ./build && yarn run clean:cache"
   },
   "files": [
     "dist"
